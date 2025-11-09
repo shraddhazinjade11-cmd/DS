@@ -68,3 +68,183 @@ while True:
     else:
         print("Invalid choice. Please enter a number between 1 and 5.")
 
+
+
+
+Link list
+Q4. Student Record Management using Singly Linked List
+class
+class Node:
+    def _init_(self, roll, name, marks):
+        self.roll = roll
+        self.name = name
+        self.marks = marks
+        self.next = None
+
+
+class StudentList:
+    def _init_(self):
+        self.head = None
+
+    def addStudent(self, roll, name, marks):
+        new_node = Node(roll, name, marks)
+        if not self.head:
+            self.head = new_node
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            temp.next = new_node
+        print("Student added successfully.")
+
+    def display(self):
+        if not self.head:
+            print("No records to display.")
+            return
+        temp = self.head
+        while temp:
+            print(f"Roll: {temp.roll}, Name: {temp.name}, Marks: {temp.marks}")
+            temp = temp.next
+
+    def search(self, roll):
+        temp = self.head
+        while temp:
+            if temp.roll == roll:
+                print(f"Found: Roll {temp.roll}, Name {temp.name}, Marks {temp.marks}")
+                return
+            temp = temp.next
+        print("Student not found.")
+
+    def delete(self, roll):
+        temp = self.head
+        if temp is None:
+            print("No record found.")
+            return
+        if temp.roll == roll:
+            self.head = temp.next
+            print("Record deleted.")
+            return
+        while temp.next:
+            if temp.next.roll == roll:
+                temp.next = temp.next.next
+                print("Record deleted.")
+                return
+            temp = temp.next
+        print("Record not found.")
+
+
+# Example
+s = StudentList()
+s.addStudent(1, "Alice", 85)
+s.addStudent(2, "Bob", 90)
+s.display()
+s.search(2)
+s.delete(1)
+s.display()
+
+
+BST
+Q8. Binary Search Tree (BST)
+class Node:
+    def _init_(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+
+class BST:
+    def _init_(self):
+        self.root = None
+
+    def insert(self, root, key):
+        if root is None:
+            return Node(key)
+        if key < root.key:
+            root.left = self.insert(root.left, key)
+        else:
+            root.right = self.insert(root.right, key)
+        return root
+
+    def inorder(self, root):
+        if root:
+            self.inorder(root.left)
+            print(root.key, end=" ")
+            self.inorder(root.right)
+
+    def search(self, root, key):
+        if root is None or root.key == key:
+            return root
+        if key < root.key:
+            return self.search(root.left, key)
+        return self.search(root.right, key)
+
+    def delete(self, root, key):
+        if root is None:
+            return root
+        if key < root.key:
+            root.left = self.delete(root.left, key)
+        elif key > root.key:
+            root.right = self.delete(root.right, key)
+        else:
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+            temp = self.minValueNode(root.right)
+            root.key = temp.key
+            root.right = self.delete(root.right, temp.key)
+        return root
+
+    def minValueNode(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
+
+# Example
+tree = BST()
+root = None
+for key in [50, 30, 70, 20, 40, 60, 80]:
+    root = tree.insert(root, key)
+
+print("Inorder traversal:")
+tree.inorder(root)
+
+print("\nSearch 40:", "Found" if tree.search(root, 40) else "Not Found")
+
+print("\nDelete 20")
+root = tree.delete(root, 20)
+tree.inorder(root)
+
+selection and bubble sort
+# Employee salaries list
+salaries = [45000.0, 52000.5, 30000.0, 75000.2, 61000.7, 48000.9, 90000.4]
+
+# --- Selection Sort ---
+def selection_sort(arr):
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+
+# --- Bubble Sort ---
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+# Using Selection Sort
+sel_salaries = salaries.copy()
+selection_sort(sel_salaries)
+print("Top 5 salaries (Selection Sort):", sel_salaries[-5:][::-1])
+
+# Using Bubble Sort
+bub_salaries = salaries.copy()
+bubble_sort(bub_salaries)
+print("Top 5 salaries (Bubble Sort):", bub_salaries[-5:][::-1])
+
